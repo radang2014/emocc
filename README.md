@@ -9,7 +9,7 @@ can write entire programs using exclusively emojis! For example, here is
 a "Hello World" program that prints out the characters `👋🌎`:
 
 ```
-💷💼👉🍎↕🐵👈⏭💷💼👉🍎📚🐵👈⏭🔢🌌🏠🌜🔢🌌😛⏸🔤✖😜🤜🤛🌛👎🌜💔🌛😛🛑🌜💔🌛😜🛑🖨🌜📤⏸💬👋🌎💬🌛🛑🚗🌌0🛑👍
+💷💼👉🍎↕🐵👈⏭💷💼👉🍎📚🐵👈⏭🔢🌌🏠🌜🔢🌌😛⏸🔤✖😜🤜🤛🌛👎🌜💔🌛😛🛑🌜💔🌛😜🛑🖨🌜📤⏸💬👋🌎💬🌛🛑🚗🌌✅🛑👍
 
 ```
 
@@ -136,12 +136,13 @@ to make a contribution or otherwise have questions, contact me at
 [radang2014REMOVEME@gmail.com](mailto:radang2014REMOVEME@gmail.com), with
 characters removed as indicated.
 
-### Strings
+### String Literals
 
 Any group of characters between two `💬`
-characters are treated as a string. All characters within a string will be
-unaltered when compiled down to C, even characters that would otherwise map to
-C keywords or symbols (the escape character being the only exception).
+characters are treated as a string literal. All characters within a string
+literal will be unaltered when compiled down to C, even characters that would
+otherwise map to C keywords or symbols (the escape character being the only
+exception).
 
 The escape character `⛔` can be used to put a
 `💬` character or a
