@@ -1,6 +1,6 @@
 # load_emoc_mappings.py
 #
-# Loads JSON file containing mapping between emoji characters and C
+# Loads JSON file containing mapping between Emo-C characters and C
 # keywords/symbols, and returns object(s) containing that information
 #
 # This is meant to be an imported module, NOT to be run as a main

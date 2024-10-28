@@ -1,6 +1,6 @@
-# emo_to_c.py
+# emoc_to_c.py
 #
-# Reads in an emoji program (file name passed on command line), transpiles
+# Reads in an Emo-C program (file name passed on command line), transpiles
 # it to C, and prints the resulting C program to stdout
 #
 # Written by: Randy Dang, October 2024
@@ -13,14 +13,14 @@ EXIT_FAILURE = 1
 
 PROGRAM_FILENAME = os.path.basename(__file__)
 
-# Read entire emoji program from source file and return contents
+# Read entire Emo-C program from source file and return contents
 def read_emo_program(emo_filename):
     emo_program = None
     with open(emo_filename, "r") as emo_file:
         emo_program = emo_file.read()
     return emo_program
 
-# Transpile emoji program to C and return contents of C program
+# Transpile Emo-C program to C and return contents of C program
 def transpile_emo_program(emo_program):
     mappings, escape_char = lem.load_emoc_mappings()
 
@@ -50,6 +50,7 @@ def transpile_emo_program(emo_program):
             inside_string = False
             closed_quote = True
 
+        # Find C token corresponding to Emo-C character if one exists
         if emo_char in mappings and not inside_string:
             c_program += mappings[emo_char]
         else:

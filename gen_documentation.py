@@ -120,10 +120,12 @@ def gen_language_specification():
 
     return language_spec
 
+# Returns Emo-C character corresponding to a C quotation mark
 def gen_quote_char():
     mappings, _ = lem.load_emoc_mappings()
     return lem.get_emo_from_c(mappings, "\"")
 
+# Returns Emo-C escape character used in strings
 def gen_escape_char():
     _, escape_char = lem.load_emoc_mappings()
     return escape_char
