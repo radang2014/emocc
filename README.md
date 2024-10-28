@@ -29,10 +29,11 @@ emocc hello_world.emoc -o hello_world
 
 ### Dependencies
 
-Two dependencies are necessary for EmoCC to work:
+Three dependencies are necessary for EmoCC to work:
 
  * A `gcc` compiler that works with Emojis.
  * Python 3 or later.
+ * A `bash` shell.
 
 ## Language Specification
 
