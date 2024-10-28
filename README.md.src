@@ -1,0 +1,88 @@
+
+# EmoCC
+
+## Overview
+
+Have you ever found programming in C so boring that you wished you could
+just code using emojis instead? Well, you're in luck! With Emo-C, you
+can write entire programs using exclusively emojis! For example, here is
+a "Hello World" program that prints out the characters `👋🌎`:
+
+```
+<!-- GENERATE: gen_hello_world -->
+```
+
+Just simply throw any Emo-C program into the `emocc` compiler and you'll
+get a working executable!
+
+## How to Use
+
+`emocc` works just like `gcc`, except that you may only compile one Emo-C
+source file at a time and that file must be the first argument. Otherwise,
+all `gcc` flags are supported. For example, `hello_world.emoc` can be compiled
+as follows:
+
+```
+emocc hello_world.emoc -o hello_world
+```
+
+### Dependencies
+
+Two dependencies are necessary for EmoCC to work:
+
+ * A `gcc` compiler that works with Emojis.
+ * Python 3 or later.
+
+## Language Specification
+
+The Emo-C language is specified as a mapping between emoji characters and
+C keywords/symbols because it literally just compiles down to C.
+
+The following table shows which C keyword or symbol corresponds to which
+Emo-C character. Any characters in an Emo-C program *not* in the table below
+will remain unaltered when compiling down to C.
+
+<!-- GENERATE: gen_language_specification -->
+
+By convention, all "face" emojis are reserved for variable names and thus
+did not appear in the table above. To ensure that your Emo-C programs remain
+compatible with future updates (where I may add new rows to this table),
+stick with using face emojis for any variable, type, etc. that you name
+yourself.
+
+### Limitations
+
+Is every possible C construct accounted for in the above language specification?
+Definitely not! But I hope this is a good start. If the provided specification
+does not fully support your needs, you can always add new entries to
+`emo_to_c.json`. I may add new entries there from time to time.
+
+If you think an important C feature is missing and would like to contribute
+to this project, please feel free to do so! If you need GitHub permissions
+to make a contribution or otherwise have questions, contact me at 
+[radang2014REMOVEME@gmail.com](mailto:radang2014REMOVEME@gmail.com), with
+characters removed as indicated.
+
+### Strings
+
+Any group of characters between two `<!-- GENERATE: gen_quote_char -->`
+characters are treated as a string. All characters within a string will be
+unaltered when compiled down to C, even characters that would otherwise map to
+C keywords or symbols (the escape character being the only exception).
+
+The escape character `<!-- GENERATE: gen_escape_char -->` can be used to put a
+`<!-- GENERATE: gen_quote_char -->` character or a
+`<!-- GENERATE: gen_escape_char -->` character within a string. Use
+`<!-- GENERATE: gen_escape_char --><!-- GENERATE: gen_quote_char -->` to
+specify a `<!-- GENERATE: gen_quote_char -->` within a string and use
+`<!-- GENERATE: gen_escape_char --><!-- GENERATE: gen_escape_char -->` to
+specify a `<!-- GENERATE: gen_escape_char -->` within a string. Any
+`<!-- GENERATE: gen_escape_char -->` within a string that is followed by
+neither a `<!-- GENERATE: gen_quote_char -->` character nor
+`<!-- GENERATE: gen_escape_char -->` character is syntactically invalid and
+will result in a compiler error.
+
+You can think of the `<!-- GENERATE: gen_escape_char -->` character as
+analogous to the `\` character and the `<!-- GENERATE: gen_quote_char -->`
+character as analogous to the `"` character in many other contexts.
+

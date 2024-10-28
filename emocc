@@ -1,0 +1,10 @@
+#! /bin/bash
+
+EXIT_FAILURE=1
+
+if [ $# -lt 1 ] ; then
+    echo "Usage: $0 <emo_filename> [<opt_gcc_args>]"
+    exit $EXIT_FAILURE
+fi
+
+python3 emoc_to_c.py $1 | gcc -xc - ${@:2}
