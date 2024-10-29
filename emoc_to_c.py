@@ -25,13 +25,14 @@ def transpile_emo_program(emo_program):
     mappings, escape_char = lem.load_emoc_mappings()
 
     c_program = ""
+    inside_char = False
     inside_string = False
     escape = False
-    closed_quote = False
     for emo_char in emo_program:
         # If character is escape character within a string, set state
         # accordingly and do NOT include in output
-        if not escape and inside_string and emo_char == escape_char:
+        if not escape and (inside_string or inside_char) and \
+           emo_char == escape_char:
             escape = True
             continue
 
@@ -44,17 +45,30 @@ def transpile_emo_program(emo_program):
                                 f"is followed by a {emo_char} character. " +
                                 f"This is syntactically invalid.")
 
+        # Exit character upon encountering closed single quote character
+        closed_single_quote = False
+        if not escape and inside_char and emo_char in mappings and \
+           mappings[emo_char] == "'":
+            inside_char = False
+            closed_single_quote = True
+
         # Exit string upon encountering closed quote character
+        closed_quote = False
         if not escape and inside_string and emo_char in mappings and \
            mappings[emo_char] == "\"":
             inside_string = False
             closed_quote = True
 
         # Find C token corresponding to Emo-C character if one exists
-        if emo_char in mappings and not inside_string:
+        if emo_char in mappings and not (inside_string or inside_char):
             c_program += mappings[emo_char]
         else:
             c_program += emo_char
+
+        # Enter character upon encountering open single quote character
+        if not inside_char and not closed_single_quote and \
+           emo_char in mappings and mappings[emo_char] == "'":
+            inside_char = True
 
         # Enter string upon encountering open quote character
         if not inside_string and not closed_quote and emo_char in mappings and \
@@ -62,7 +76,6 @@ def transpile_emo_program(emo_program):
             inside_string = True
 
         escape = False
-        closed_quote = False
 
     return c_program
 
