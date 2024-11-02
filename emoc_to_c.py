@@ -22,7 +22,7 @@ def read_emo_program(emo_filename):
 
 # Transpile Emo-C program to C and return contents of C program
 def transpile_emo_program(emo_program):
-    mappings, escape_char = lem.load_emoc_mappings()
+    mappings, escape_char, escape_mappings = lem.load_emoc_mappings()
 
     c_program = ""
     inside_char = False
@@ -36,14 +36,14 @@ def transpile_emo_program(emo_program):
             escape = True
             continue
 
-        # Error checking: if in escape state, next character MUST be
-        # either the escape character or the quote character.
+        # Error checking: if in escape state, next character MUST complete
+        # an escape sequence
         if escape:
-            if emo_char != escape_char and \
-               (emo_char not in mappings or mappings[emo_char] != "\""):
-                raise Exception(f"ERROR: Escape character {escape_char} " +
-                                f"is followed by a {emo_char} character. " +
-                                f"This is syntactically invalid.")
+            if emo_char not in escape_mappings:
+                raise Exception(f"ERROR: Escape character '{escape_char}' " +
+                                f"is followed by a '{emo_char}' character, " +
+                                f"which does not complete an escape " +
+                                f"sequence. This is syntactically invalid.")
 
         # Exit character upon encountering closed single quote character
         closed_single_quote = False
@@ -59,9 +59,12 @@ def transpile_emo_program(emo_program):
             inside_string = False
             closed_quote = True
 
-        # Find C token corresponding to Emo-C character if one exists
+        # Find C token corresponding to Emo-C character if one exists, or
+        # escape sequence if applicable
         if emo_char in mappings and not (inside_string or inside_char):
             c_program += mappings[emo_char]
+        elif escape and (inside_string or inside_char):
+            c_program += escape_mappings[emo_char]
         else:
             c_program += emo_char
 

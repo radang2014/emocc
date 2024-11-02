@@ -21,9 +21,9 @@ EMO_TO_C_MAPPINGS_FILENAME = "emoc_to_c.json";
 def load_emoc_mappings():
     config = None
     with open(EMO_TO_C_MAPPINGS_FILENAME, "r") as config_file:
-        config = json.load(config_file, \
+        config = json.load(config_file,
                            object_pairs_hook=validate_emoc_mappings)
-    return config["mappings"], config["escape_char"]
+    return config["mappings"], config["escape_char"], config["escape_mappings"]
 
 # Ensure there are no duplicate keys in mappings; otherwise, raise exception
 def validate_emoc_mappings(mapping_pairs):

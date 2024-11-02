@@ -6,7 +6,7 @@
 Have you ever found programming in C so boring that you wished you could
 just code using emojis instead? Well, you're in luck! With Emo-C, you
 can write entire programs using exclusively emojis! For example, here is
-a "Hello World" program that prints out the characters `👋🌎`:
+a program that prints out the string "Hello world!":
 
 ```
 <!-- GENERATE: gen_hello_world -->
@@ -64,27 +64,30 @@ to make a contribution or otherwise have questions, contact me at
 [radang2014REMOVEME@gmail.com](mailto:radang2014REMOVEME@gmail.com), with
 characters removed as indicated.
 
-### String Literals
+### String and Character Literals
 
 Any group of characters between two `<!-- GENERATE: gen_quote_char -->`
-characters are treated as a string literal. All characters within a string
-literal will be unaltered when compiled down to C, even characters that would
-otherwise map to C keywords or symbols (the escape character being the only
-exception).
+characters are treated as a string literal. Any group of characters between
+two `<!-- GENERATE: gen_single_quote_char -->` characters are treated as a
+character literal. All characters within a string or character literal will
+be unaltered when compiled down to C, even characters that would otherwise
+map to C keywords or symbols (the escape character being the only exception).
 
-The escape character `<!-- GENERATE: gen_escape_char -->` can be used to put a
-`<!-- GENERATE: gen_quote_char -->` character or a
-`<!-- GENERATE: gen_escape_char -->` character within a string. Use
-`<!-- GENERATE: gen_escape_char --><!-- GENERATE: gen_quote_char -->` to
-specify a `<!-- GENERATE: gen_quote_char -->` within a string and use
-`<!-- GENERATE: gen_escape_char --><!-- GENERATE: gen_escape_char -->` to
-specify a `<!-- GENERATE: gen_escape_char -->` within a string. Any
-`<!-- GENERATE: gen_escape_char -->` within a string that is followed by
-neither a `<!-- GENERATE: gen_quote_char -->` character nor
-`<!-- GENERATE: gen_escape_char -->` character is syntactically invalid and
-will result in a compiler error.
+Escape sequences always begin with the escape character
+`<!-- GENERATE: gen_escape_char -->` and can be used to put a
+`<!-- GENERATE: gen_quote_char -->` character, a
+`<!-- GENERATE: gen_single_quote_char -->` character, or a
+`<!-- GENERATE: gen_escape_char -->` character within a string or character
+literal. They can also be used as an alternative way to specify normal,
+typeable characters within strings without having to type non-emoji characters.
+See the following table for the mapping between escape sequences and characters.
+
+<!-- GENERATE: gen_escape_mappings -->
+
+Any `<!-- GENERATE: gen_escape_char -->` within a string that is not followed
+by a character that completes an escape sequence in the table above is
+syntactically invalid and will result in a compiler error.
 
 You can think of the `<!-- GENERATE: gen_escape_char -->` character as
-analogous to the `\` character and the `<!-- GENERATE: gen_quote_char -->`
-character as analogous to the `"` character in many other contexts.
+analogous to the `\` character in many other contexts.
 

@@ -7,6 +7,7 @@
 import os
 import sys
 import load_emoc_mappings as lem
+import format_md_table as fmt
 
 EXIT_FAILURE = 1
 
@@ -21,7 +22,9 @@ def init_generate_func_mappings():
         "gen_hello_world" : gen_hello_world,
         "gen_language_specification" : gen_language_specification,
         "gen_quote_char" : gen_quote_char,
-        "gen_escape_char" : gen_escape_char
+        "gen_single_quote_char" : gen_single_quote_char,
+        "gen_escape_char" : gen_escape_char,
+        "gen_escape_mappings" : gen_escape_mappings
     }
 
 # Reads entire documentation source file and returns contents
@@ -45,95 +48,62 @@ def gen_hello_world():
 
 # Creates Markdown table of C to Emo-C mappings based on JSON data file
 def gen_language_specification():
-    mappings, _ = lem.load_emoc_mappings()
-    headings = ["C Keyword or Symbol", "Emo-C Character", \
+    mappings, _, _ = lem.load_emoc_mappings()
+    headings = ["C Keyword or Symbol", "Emo-C Character",
                 "Unicode Hex Value "]
-    heading_lens = [len(heading) for heading in headings]
+    formatter_funcs = [
+        fmt.format_c_token, fmt.format_emo_char, fmt.format_emo_unicode
+    ]
 
-    # Formatter functions for each column of table
-
-    def format_c_token(c_token, length):
-        formatted = None
-
-        # Exception cases where we don't want the literal character inserted
-        # in the table
-        if c_token == "\n":
-            formatted = "(newline character)"
-        elif c_token == " ":
-            formatted = "(space character)"
-        # Default case
-        else:
-            formatted = f"`{c_token}`"
-
-        return formatted.ljust(length)
-
-    def format_emo_char(emo_char, length):
-        return emo_char + (" " * (length - 1))
-
-    def format_emo_unicode(emo_unicode, length):
-        # Format numerical components of emoji as unicode hex
-        formatted_components = [
-            f"U+{emo_unicode_component:X}" \
-            for emo_unicode_component in emo_unicode
-        ]
-
-        formatted = " ".join(formatted_components)
-        return formatted.ljust(length)
-
-    formatter_funcs = [format_c_token, format_emo_char, format_emo_unicode]
-
-    language_spec = ""
-
-    # Write Table Header
-    language_spec += "|"
-    for heading in headings:
-        language_spec += f" {heading} " + "|"
-    language_spec += "\n"
-
-    language_spec += "|"
-    for heading_len in heading_lens:
-        language_spec += "-" + ("-" * heading_len) + "-|"
-    language_spec += "\n"
-
-    # Write Table Rows
-    first_row = True
+    # Extract table data from JSON file
+    data = list()
     for emo_char in mappings:
-        if not first_row:
-            language_spec += "\n"
-
-        # Write Table Row for current mapping
         c_token = mappings[emo_char]
-        emo_unicode = [ # compute numerical value for each component of emoji
-            ord(emo_char_component) for emo_char_component in emo_char
-        ]
-        row_values = [c_token, emo_char, emo_unicode]
+        data.append([c_token, emo_char, emo_char])
 
-        language_spec += "|"
-        for row_value, heading_len, formatter_func in \
-            zip(row_values, heading_lens, formatter_funcs):
-
-            # Write current cell in row
-            row_value_formatted = formatter_func(row_value, heading_len)
-            language_spec += " " + row_value_formatted + " |"
-
-        first_row = False
-
-    return language_spec
+    return fmt.format_md_table(headings, data, formatter_funcs)
 
 # Returns Emo-C character corresponding to a C quotation mark
 def gen_quote_char():
-    mappings, _ = lem.load_emoc_mappings()
+    mappings, _, _ = lem.load_emoc_mappings()
     return lem.get_emo_from_c(mappings, "\"")
+
+# Returns Emo-C character corresponding to a C single quotation mark
+def gen_single_quote_char():
+    mappings, _, _ = lem.load_emoc_mappings()
+    return lem.get_emo_from_c(mappings, "'")
 
 # Returns Emo-C escape character used in strings
 def gen_escape_char():
-    _, escape_char = lem.load_emoc_mappings()
+    _, escape_char, _ = lem.load_emoc_mappings()
     return escape_char
+
+# Creates Markdown table of Emo-C escape sequences and corresponding
+# characters based on JSON data file
+def gen_escape_mappings():
+    _, escape_char, mappings = lem.load_emoc_mappings()
+    headings = [
+        "Emo-C Escape Sequence",
+        "Unicode Hex Value (not including escape character)", 
+        "C character      "
+    ]
+    formatter_funcs = [
+        fmt.format_emo_char_pair, fmt.format_emo_unicode, fmt.format_c_token
+    ]
+
+    # Extract table data from JSON file
+    data = list()
+    for escape_sequence_key in mappings:
+        escape_sequence = escape_char + escape_sequence_key
+        c_char = mappings[escape_sequence_key]
+        data.append([escape_sequence, escape_sequence_key, c_char])
+
+    return fmt.format_md_table(headings, data, formatter_funcs)
 
 # Adds generated components to documentation and returns resulting contents
 def add_generated_components(doc_src_file):
     for gen_key in GENERATE_FUNC_MAPPINGS:
-        doc_src_file = doc_src_file.replace(get_doc_src_value(gen_key), \
+        doc_src_file = doc_src_file.replace(get_doc_src_value(gen_key),
                                             GENERATE_FUNC_MAPPINGS[gen_key]())
     return doc_src_file
 
