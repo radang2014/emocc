@@ -122,6 +122,12 @@ will remain unaltered when compiling down to C.
 | ``~``               | 🔴               | U+1F534            |
 | ``!``               | ❗               | U+2757             |
 | ``else``            | 🛄               | U+1F6C4            |
+| ``fgetc``           | 📷               | U+1F4F7            |
+| ``fgets``           | 📸               | U+1F4F8            |
+| ``fscanf``          | 🎥               | U+1F3A5            |
+| ``sscanf``          | 🎞               | U+1F39E            |
+| ``0x``              | ✡               | U+2721             |
+| ``EOF``             | 🔚               | U+1F51A            |
 
 By convention, all "face" emojis are reserved for variable names and thus
 did not appear in the table above. To ensure that your Emo-C programs remain

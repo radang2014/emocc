@@ -7,6 +7,10 @@ CFLAGS = -Wall -Wextra -Werror
 
 all: hello_world README
 
+refresh:
+	make clean_all
+	make all
+
 # Build `hello_world` example program
 hello_world: hello_world.o
 	gcc hello_world.o -o hello_world $(CFLAGS)
