@@ -2,7 +2,7 @@
  ✖ hello_world.emoc
  ✖
  ✖ A "Hello World" style program made entirely out of emojis.
- ✖ Prints out "👋🌎".
+ ✖ Prints out "Hello world!".
  ✖
  ✖ Compile this program with `emocc`.
  ✖ 
