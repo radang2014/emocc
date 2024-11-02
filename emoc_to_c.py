@@ -13,6 +13,8 @@ EXIT_FAILURE = 1
 
 PROGRAM_FILENAME = os.path.basename(__file__)
 
+MAX_NUM_CHARS_IN_EMOJI = 11
+
 # Read entire Emo-C program from source file and return contents
 def read_emo_program(emo_filename):
     emo_program = None
@@ -28,12 +30,19 @@ def transpile_emo_program(emo_program):
     inside_char = False
     inside_string = False
     escape = False
-    for emo_char in emo_program:
+    num_chars_to_next_emoji = 0
+    for emo_char_idx, emo_char in enumerate(emo_program):
         # If character is escape character within a string, set state
         # accordingly and do NOT include in output
         if not escape and (inside_string or inside_char) and \
            emo_char == escape_char:
             escape = True
+            continue
+
+        # If in middle of emoji spanning multiple characters, continue
+        # until completion
+        if num_chars_to_next_emoji > 0:
+            num_chars_to_next_emoji -= 1
             continue
 
         # Error checking: if in escape state, next character MUST complete
@@ -60,12 +69,32 @@ def transpile_emo_program(emo_program):
             closed_quote = True
 
         # Find C token corresponding to Emo-C character if one exists, or
-        # escape sequence if applicable
-        if emo_char in mappings and not (inside_string or inside_char):
-            c_program += mappings[emo_char]
-        elif escape and (inside_string or inside_char):
-            c_program += escape_mappings[emo_char]
+        # escape sequence if applicable. Try all amounts of characters
+        # up until known maximum.
+        num_chars_in_emoji = 1
+        while num_chars_in_emoji <= MAX_NUM_CHARS_IN_EMOJI and \
+              emo_char_idx + num_chars_in_emoji <= len(emo_program):
+
+            # Build emoji character if composed of length greater than 1
+            if num_chars_in_emoji > 1:
+                emo_char += emo_program[emo_char_idx + num_chars_in_emoji - 1]
+
+            # Find C token corresponding to emoji character if one exists
+            if emo_char in mappings and not (inside_string or inside_char):
+                c_program += mappings[emo_char]
+                num_chars_to_next_emoji += len(emo_char) - 1
+                break
+            elif escape and emo_char in escape_mappings and \
+                 (inside_string or inside_char):
+
+                c_program += escape_mappings[emo_char]
+                num_chars_to_next_emoji += len(emo_char) - 1
+                break
+
+            num_chars_in_emoji += 1
         else:
+            # If no corresponding C token, just use input character
+            emo_char = emo_char[0]
             c_program += emo_char
 
         # Enter character upon encountering open single quote character
