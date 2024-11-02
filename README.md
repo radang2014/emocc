@@ -128,6 +128,9 @@ will remain unaltered when compiling down to C.
 | ``sscanf``          | 🎞               | U+1F39E            |
 | ``0x``              | ✡               | U+2721             |
 | ``EOF``             | 🔚               | U+1F51A            |
+| ``FILE``            | 🗂               | U+1F5C2            |
+| ``fopen``           | 📂               | U+1F4C2            |
+| ``fclose``          | 📁               | U+1F4C1            |
 
 By convention, all "face" emojis are reserved for variable names and thus
 did not appear in the table above. To ensure that your Emo-C programs remain

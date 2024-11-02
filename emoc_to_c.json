@@ -82,7 +82,10 @@
         "🎥" : "fscanf",
         "🎞" : "sscanf",
         "✡" : "0x",
-        "🔚" : "EOF"
+        "🔚" : "EOF",
+        "🗂" : "FILE",
+        "📂" : "fopen",
+        "📁" : "fclose"
     },
     "escape_char" : "⛔",
     "escape_mappings" : {
