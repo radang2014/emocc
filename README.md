@@ -117,6 +117,11 @@ will remain unaltered when compiling down to C.
 | ``typedef``         | 🏁               | U+1F3C1            |
 | ``_t``              | 🚩               | U+1F6A9            |
 | ``,``               | ⏸               | U+23F8             |
+| ``&``               | ⚔               | U+2694             |
+| ``\|``              | 🗡               | U+1F5E1            |
+| ``~``               | 🔴               | U+1F534            |
+| ``!``               | ❗               | U+2757             |
+| ``else``            | 🛄               | U+1F6C4            |
 
 By convention, all "face" emojis are reserved for variable names and thus
 did not appear in the table above. To ensure that your Emo-C programs remain
@@ -245,7 +250,7 @@ See the following table for the mapping between escape sequences and characters.
 | ⛔👈                    | U+1F448                                            | ``>``             |
 | ⛔⏸                    | U+23F8                                             | ``,``             |
 | ⛔⏹                    | U+23F9                                             | ``.``             |
-| ⛔🚫                    | U+1F6AB                                            | ``~``             |
+| ⛔🔴                    | U+1F534                                            | ``~``             |
 | ⛔⏲                    | U+23F2                                             | `` ` ``           |
 | ⛔⏱                    | U+23F1                                             | ``'``             |
 | ⛔⏰                    | U+23F0                                             | ``"``             |
