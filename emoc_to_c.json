@@ -85,7 +85,8 @@
         "🔚" : "EOF",
         "🗂" : "FILE",
         "📂" : "fopen",
-        "📁" : "fclose"
+        "📁" : "fclose",
+        "🕳" : "NULL"
     },
     "escape_char" : "⛔",
     "escape_mappings" : {

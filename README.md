@@ -131,6 +131,7 @@ will remain unaltered when compiling down to C.
 | ``FILE``            | 🗂               | U+1F5C2            |
 | ``fopen``           | 📂               | U+1F4C2            |
 | ``fclose``          | 📁               | U+1F4C1            |
+| ``NULL``            | 🕳               | U+1F573            |
 
 By convention, all "face" emojis are reserved for variable names and thus
 did not appear in the table above. To ensure that your Emo-C programs remain
